@@ -12,7 +12,7 @@ pipeline {
     stage('Build the Docker') {
       steps {
         sh 'ls'
-	sh 'docker build https://github.com/BostonMeditechGroup/calcification_detection.git#dev:scripts -t egret:gm1.0 --build-arg username=gautham1994 --build-arg password=Nandanam94'
+	sh 'docker build https://github.com/BMG-Jane/Gmodel.git#master:scripts -t egret:jane1.0 --build-arg username=gautham1994 --build-arg password=Nandanam94'
 
       }
     }
