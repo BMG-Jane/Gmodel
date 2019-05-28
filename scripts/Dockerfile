@@ -44,4 +44,4 @@ ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD
 
 WORKDIR /home
 
-RUN git clone --single-branch --branch dev https://${username}:${password}@github.com/BMG-Jane/Gmodel.git /home
+RUN git clone --single-branch --branch master https://${username}:${password}@github.com/BMG-Jane/Gmodel.git /home
