@@ -34,8 +34,8 @@ if __name__ == '__main__':
     ##train
 #     train_dir = '/home/jane/train_egret' #train data folder
 #     csv_dir_train = '/home/jane/data_details_short.csv'#csv of train data
-    train_dir = os.path.join(cur, 'train_egret')
-    csv_dir_train = os.path.join(cur, 'data_details_short_csv')
+    train_dir = os.path.join(cur, 'gmodel_tmp', 'train_egret')
+    csv_dir_train = os.path.join(cur, 'gmodel_tmp','data_details_short.csv')
     
     #load csv file of train data
     data = gmodel.Load_csv(csv_dir_train)
@@ -51,8 +51,10 @@ if __name__ == '__main__':
     ##evaluation
 #    model_path = './BMG5'
 #    model_name = 'BMG5_VGG16_100_6_0_224_adam_0.001'
-    test_dir = '/home/jane/test_egret/data'
-    csv_dir_test = '/home/jane/test_egret/data_details_test.csv'
+#     test_dir = '/home/jane/test_egret/data'
+#     csv_dir_test = '/home/jane/test_egret/data_details_test.csv'
+    test_dir = os.path.join(cur, 'gmodel_tmp',  'test_egret', 'data')
+    csv_dir_test = os.path.join(cur, 'gmodel_tmp', 'data_details_test.csv')
     
     #load the trained model
     model = gmodel.Model_Loading(model_path, model_name)
@@ -66,14 +68,15 @@ if __name__ == '__main__':
     plt.show()
     
     ##inferance a sequence of images
-    pred_dir = '/home/jane/test_egret' #images in the subfolder of pred_dir
+#     pred_dir = '/home/jane/test_egret' #images in the subfolder of pred_dir
+    pred_dir = os.path.join(cur, 'gmodel_tmp', 'test_egret')
     #load the sequence of images for prediction
     pred_generator = gmodel.Load_data_Predset(pred_dir)
     #prediction
     pred_results = gmodel.Model_Prediction(model, pred_generator)
     
     ##inferance one single image
-    img_path = '/home/jane/test_egret/data/P_01700_RIGHT_CC.png'
+    img_path = os.path.join(cur, 'gmodel_tmp',  'test_egret', 'data','P_01700_RIGHT_CC.png')
     pred_one, pred_class = gmodel.Model_Prediction_img(model, img_path)
     
 
