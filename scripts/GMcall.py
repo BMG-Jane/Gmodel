@@ -54,7 +54,7 @@ if __name__ == '__main__':
 #     test_dir = '/home/jane/test_egret/data'
 #     csv_dir_test = '/home/jane/test_egret/data_details_test.csv'
     test_dir = os.path.join(cur, 'scripts', 'gmodel_tmp',  'test_egret', 'data')
-    csv_dir_test = os.path.join(cur, 'scripts', 'adfd', 'data_details_test.csv')
+    csv_dir_test = os.path.join(cur, 'scripts', 'gmodel_tmp', 'data_details_test.csv')
     
     #load the trained model
     model = gmodel.Model_Loading(model_path, model_name)
