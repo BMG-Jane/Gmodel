@@ -19,7 +19,7 @@ pipeline {
     stage('Run the Docker') {
       steps {
 	sh 'nvidia-docker run -d -it --rm --name gmodel egret:jane1.0'
-	sh 'docker cp ./gmodel_temp/. gmodel:/home/scripts'
+	sh 'docker cp ./gmodel_temp/. gmodel:/home/scripts/gmodel_tmp/'
 	sh 'docker commit gmodel egret:jane1.0'
       }
     }
