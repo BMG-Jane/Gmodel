@@ -11,6 +11,7 @@
 
 from GMclass import GeneralModel
 import matplotlib.pyplot as plt
+import os 
 
 if __name__ == '__main__':
     
@@ -25,14 +26,17 @@ if __name__ == '__main__':
     optimizer = 'adam' #'adam' or 'sgd'
     
     
+    cur = os.getcwd()
     
     ##init
     gmodel = GeneralModel()
     
     ##train
-    train_dir = '/home/jane/train_egret' #train data folder
-    csv_dir_train = '/home/jane/data_details_short.csv'#csv of train data
-       
+#     train_dir = '/home/jane/train_egret' #train data folder
+#     csv_dir_train = '/home/jane/data_details_short.csv'#csv of train data
+    train_dir = os.path.join(cur, 'train_egret')
+    csv_dir_train = os.path.join(cur, 'data_details_short_csv')
+    
     #load csv file of train data
     data = gmodel.Load_csv(csv_dir_train)
     #Load train data，split to strain and validation sets
