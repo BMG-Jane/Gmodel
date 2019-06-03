@@ -90,7 +90,6 @@ class GeneralModel(object):
         '''
            Load csv file 
         '''
-        print(csv_path)
         dataall = pd.read_csv(csv_path,header=None,names=['image','classid'])
         dataall2=dataall.dropna()
         data=dataall2.drop_duplicates('image','first')
