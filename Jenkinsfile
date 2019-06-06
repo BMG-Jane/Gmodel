@@ -25,7 +25,7 @@ pipeline {
     }
     stage('Testing') {
       steps {
-        sh 'nvidia-docker exec -i gmodel python3 /home/scripts/GMcall.py'
+        sh 'nvidia-docker exec -i gmodel python3 /home/scripts/GMcall_qa.py'
       }
     }
   }

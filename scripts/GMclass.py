@@ -7,6 +7,8 @@
 #finalized clean version
 #class for general mdoel training, evaluation, and prediction
 #add roc auc
+#from GMclass.py, fix nb_samples, step for training, pre-shuffle in Lode_csv 
+#from GMclassBatchsize.py, dst_dir
 #Jane Z. May 24, 2019
 import os
 import sys
@@ -68,7 +70,8 @@ class GeneralModel(object):
 
     def Data_Stat(self, train_generator, val_generator):
         '''data statistics'''
-        print ('Number of classes: ', len(train_generator.class_indices))
+        nb_classes = len(train_generator.class_indices)
+        print ('Number of classes: ', nb_classes)
         print ('Number of samples in train set: ', train_generator.n)
         print ('Number of samples in validation set: ', val_generator.n)
         list_classes_train = train_generator.class_indices
@@ -83,7 +86,7 @@ class GeneralModel(object):
         print('In test set, number of samples in each class:')
         val_counter = dict(Counter(class_namelist_val))
         print (val_counter)
-        return train_counter, val_counter
+        return nb_classes, train_generator.n, val_generator.n, train_counter, val_counter 
       
 
     def Load_csv(self,csv_path):
@@ -94,6 +97,7 @@ class GeneralModel(object):
         dataall2=dataall.dropna()
         data=dataall2.drop_duplicates('image','first')
         self.nb_classes=data.classid.nunique()
+        data = data.sample(frac=1).reset_index(drop=True) #shuffle
         print('loaded')
         return data
         
@@ -130,7 +134,9 @@ class GeneralModel(object):
             shuffle=True,
             seed=13,
             subset='validation'        
-        )        
+        ) 
+        
+        self.nb_samples = train_generator.n + validation_generator.n
                 
         return train_generator, validation_generator
     
@@ -166,15 +172,16 @@ class GeneralModel(object):
         return pred_generator
 
     
-    def Model_Train(self, train_generator, validation_generator, org_model, model_name_init, lr, nb_epoch, optimizer):
+    def Model_Train(self, train_generator, validation_generator, dst_dir, org_model, model_name_init, lr, nb_epoch, optimizer):
         '''To train the model'''
         self.model = org_model
         self.model_name = model_name_init
         self.lr = lr
         self.nb_epoch = nb_epoch     
         self.optimizer = optimizer
+        self.dst_dir = dst_dir
        
-        
+        print('nb:', self.nb_samples, self.batch_size)
         # Create the base pre-trained model
         if self.model == 'VGG16':
             self.trainable_layers = 15
@@ -187,7 +194,7 @@ class GeneralModel(object):
         elif self.model == 'DenseNet121':
             self.trainable_layers = 200
            # img_rows, img_cols = 224, 224  # Resolution of inputs
-            base_model = DenseNet121(weights='imagenet', include_top=False)
+            self.base_model = DenseNet121(weights='imagenet', include_top=False)
         elif self.model == 'DenseNet169':
             self.trainable_layers = 200
            # img_rows, img_cols = 224, 224  # Resolution of inputs
@@ -232,8 +239,8 @@ class GeneralModel(object):
         history_ft = model.fit_generator(
             generator=train_generator,
             epochs=self.nb_epoch,
-            steps_per_epoch= (self.nb_samples/self.batch_size)+1,
-            validation_steps = (validation_generator.samples/self.batch_size) +1,
+            steps_per_epoch= (train_generator.n/self.batch_size)+1,
+            validation_steps = (validation_generator.n/self.batch_size) +1,
             validation_data=validation_generator,
             callbacks = [tensorboard, checkpointer, EarlyStopping(monitor='val_loss', min_delta=0.01, patience=5)],
             class_weight = 'auto',

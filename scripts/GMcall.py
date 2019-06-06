@@ -1,26 +1,29 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[18]:
+# In[2]:
 
 
 #Call the functions in class GeneralModel
 #Call GMclass
 #no arg, direct variables
-#Jane Z., May 24, 2019
+#from GMcall02, to call GMclassDstdir, add dstdir as input of model train, add more output for data_stat
+#Jane Z., June 6, 2019
 
-from GMclass import GeneralModel
+from GMclassDstdir import GeneralModel
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     
     #parameters 
-    org_model='VGG16' #could be: 'VGG16', 'Resnet50', 'DenseNet121', 'DenseNet169', 'DenseNet201'
-    model_name_init = 'BMG5' #the name init of generated model
-    lr = 0.001 #learning rate
-    nb_epoch = 6 #number of epoches
-    batch_size = 100 
-    val_split = 0.2 # val_split to validation set, 1-val_split to train set
+    org_model='DenseNet121' #could be: 'VGG16', 'Resnet50', 'DenseNet121', 'DenseNet169', 'DenseNet201'
+    model_name_init = 'BMG6' #the name init of generated model
+    dst_dir = '/home/jane/results' #the folder for GModel
+    lr = 0.0001 #learning rate
+    nb_epoch = 1 #number of epoches
+    batch_size = 5
+    val_split = 0.1 # val_split to validation set, 1-val_split to train set
+    
     
     optimizer = 'adam' #'adam' or 'sgd'
     
@@ -38,15 +41,15 @@ if __name__ == '__main__':
     #Load train data，split to strain and validation sets
     train_generator, validation_generator = gmodel.Load_data_Trainset(data, train_dir, val_split, batch_size)
     #Data statistics of train and validation sets
-    train_counter, val_counter = gmodel.Data_Stat(train_generator, validation_generator)
+    nb_classes, nb_trainsamples, nb_valsamples, train_counter, val_counter = gmodel.Data_Stat(train_generator, validation_generator)
     #Model training
-    model_path,model_name,model=gmodel.Model_Train(train_generator,validation_generator,org_model,model_name_init,lr,nb_epoch,optimizer)
+    model_path,model_name,model=gmodel.Model_Train(train_generator, validation_generator, dst_dir, org_model,model_name_init,lr,nb_epoch,optimizer)
     #Model saving
     gmodel.Model_Saving(model_path, model_name, model)
     
     ##evaluation
-#    model_path = './BMG5'
-#    model_name = 'BMG5_VGG16_100_6_0_224_adam_0.001'
+ #   model_path = '/home/jane/results/BMG6'
+ #   model_name = 'BMG6_DenseNet121_5_1_0_224_adam_0.0001'
     test_dir = '/home/jane/test_egret/data'
     csv_dir_test = '/home/jane/test_egret/data_details_test.csv'
     
@@ -72,4 +75,10 @@ if __name__ == '__main__':
     img_path = '/home/jane/test_egret/data/P_01700_RIGHT_CC.png'
     pred_one, pred_class = gmodel.Model_Prediction_img(model, img_path)
     
+
+
+# In[ ]:
+
+
+
 

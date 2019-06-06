@@ -7,7 +7,8 @@
 #Call the functions in class GeneralModel
 #Call GMclass
 #no arg, direct variables
-#Jane Z., May 24, 2019
+#GMcall03
+#Jane Z., June 6, 2019
 
 from GMclass import GeneralModel
 import matplotlib.pyplot as plt
@@ -18,10 +19,11 @@ if __name__ == '__main__':
     #parameters 
     org_model='VGG16' #could be: 'VGG16', 'Resnet50', 'DenseNet121', 'DenseNet169', 'DenseNet201'
     model_name_init = 'BMG5' #the name init of generated model
+    dst_dir = './'
     lr = 0.001 #learning rate
-    nb_epoch = 6 #number of epoches
-    batch_size = 100 
-    val_split = 0.2 # val_split to validation set, 1-val_split to train set
+    nb_epoch = 2 #number of epoches
+    batch_size = 10 
+    val_split = 0.1 # val_split to validation set, 1-val_split to train set
     
     optimizer = 'adam' #'adam' or 'sgd'
     
@@ -42,9 +44,9 @@ if __name__ == '__main__':
     #Load train data，split to strain and validation sets
     train_generator, validation_generator = gmodel.Load_data_Trainset(data, train_dir, val_split, batch_size)
     #Data statistics of train and validation sets
-    train_counter, val_counter = gmodel.Data_Stat(train_generator, validation_generator)
+    nb_classes, nb_trainsamples, nb_valsamples, train_counter, val_counter = gmodel.Data_Stat(train_generator, validation_generator)
     #Model training
-    model_path,model_name,model=gmodel.Model_Train(train_generator,validation_generator,org_model,model_name_init,lr,nb_epoch,optimizer)
+    model_path,model_name,model=gmodel.Model_Train(train_generator,validation_generator,dst_dir, org_model,model_name_init,lr,nb_epoch,optimizer)
     #Model saving
     gmodel.Model_Saving(model_path, model_name, model)
     
