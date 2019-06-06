@@ -30,7 +30,8 @@ pipeline {
     stage('Releasing'){
       steps {
 	sh 'mkdir /storage/QA/DrLotusAI_releases/Gmodel'
-	sh 'docker cp gmodel:/home/scripts /storage/QA/DrLotusAI_releases/Gmodel/'      
+	sh 'docker cp gmodel:/home/scripts /storage/QA/DrLotusAI_releases/Gmodel/'   
+	sh 'docker stop gmodel'
       }	    
     }
   }
