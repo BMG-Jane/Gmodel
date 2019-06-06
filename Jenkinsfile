@@ -18,7 +18,7 @@ pipeline {
     stage('Run the Docker') {
       steps {
 	sh 'nvidia-docker run -d -it --rm --name gmodel egret:jane1.0'
-	sh 'docker cp ./gmodel_temp/. gmodel:/home/scripts/gmodel_tmp/'
+	sh 'docker cp /storage/QA/DrLotus_Beta_models/gmodel gmodel:/home/'
 	sh 'docker commit gmodel egret:jane1.0'
       }
     }
@@ -32,6 +32,7 @@ pipeline {
 	sh 'mkdir /storage/QA/DrLotusAI_releases/Gmodel'
 	sh 'docker cp gmodel:/home/scripts /storage/QA/DrLotusAI_releases/Gmodel/'   
 	sh 'docker stop gmodel'
+	sh 'docker rmi egret:jane1.0'
       }	    
     }
   }
