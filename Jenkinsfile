@@ -13,7 +13,6 @@ pipeline {
       steps {
         sh 'ls'
 	sh 'docker build https://github.com/BMG-Jane/Gmodel.git#master:scripts -t egret:jane1.0 --build-arg username=gautham1994 --build-arg password=Nandanam94'
-
       }
     }
     stage('Run the Docker') {
@@ -27,6 +26,12 @@ pipeline {
       steps {
         sh 'nvidia-docker exec -i gmodel python3 /home/scripts/GMcall_qa.py'
       }
+    }
+    stage('Releasing'){
+      steps {
+	sh 'mkdir /storage/QA/DrLotusAI_releases/Gmodel'
+	sh 'docker cp gmodel:/home/scripts /storage/QA/DrLotusAI_releases/Gmodel/'      
+      }	    
     }
   }
     post {
