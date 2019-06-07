@@ -12,7 +12,7 @@ pipeline {
     stage('Build the Docker') {
       steps {
         sh 'ls'
-	sh 'docker build https://github.com/BMG-Jane/Gmodel.git#master:scripts -t egret:jane1.0 --build-arg username=gautham1994 --build-arg password=Nandanam94'
+	sh 'docker build https://GraceBoston:37ac7e9df96837d704ba7ea5f51fa236c89cb13e@github.com/BMG-Jane/Gmodel.git#master:scripts -t egret:jane1.0 --build-arg username=gautham1994 --build-arg password=Nandanam94'
       }
     }
     stage('Run the Docker') {
