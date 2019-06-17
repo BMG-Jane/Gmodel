@@ -9,7 +9,9 @@
 #add roc auc
 #from GMclass.py, fix nb_samples, step for training, pre-shuffle in Lode_csv 
 #from GMclassBatchsize.py, dst_dir
-#Jane Z. May 24, 2019
+#from GMclassDstdir.py, revise the prediction--input without subfolder, output image name + predicted class
+#from GMclassPrediction09.py, output of prediction:pd to dict, add timestampe to model_path, predict single image: x=x./255
+#Jane Z. June 14, 2019
 import os
 import sys
 import glob
@@ -41,6 +43,7 @@ from keras.preprocessing import image
 from collections import Counter
 from keras_preprocessing.image import ImageDataGenerator
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, roc_auc_score, f1_score, recall_score, precision_score, classification_report
+from datetime import datetime 
 
 
 # In[2]:
@@ -157,19 +160,37 @@ class GeneralModel(object):
         
         return test_generator
     
-    def Load_data_Predset(self, pred_path):
+    def Load_data_Predset(self,pred_path):
+        '''Load data for prediction'''
+        print (pred_path)
+        pred_img = []
+        for root, dirs, files in os.walk(pred_path):
+            print(files)
+            for file in files:
+               # shortname, extension = os.path.splitext(file)
+               # if extension == '.png' or '.jpg':
+                    pred_img.append([file])
+            
+        pred_np = np.array(pred_img)        
+        pred_df = pd.DataFrame(pred_np,columns=['image'])
+            
+    
         pred_datagen = ImageDataGenerator(rescale = 1. /255)
+      
         
-        pred_generator = pred_datagen.flow_from_directory(
-            pred_path,
-           # y_col=None,
+        pred_generator = pred_datagen.flow_from_dataframe(
+            dataframe = pred_df,
+            directory = pred_path,
+            x_col = 'image',
             target_size = (self.img_rows, self.img_cols),
             class_mode = None,
             batch_size = 1,
-            shuffle = False            
+            shuffle = False,
+            seed = 13
         )
         
-        return pred_generator
+        return pred_generator   
+        
 
     
     def Model_Train(self, train_generator, validation_generator, dst_dir, org_model, model_name_init, lr, nb_epoch, optimizer):
@@ -180,6 +201,7 @@ class GeneralModel(object):
         self.nb_epoch = nb_epoch     
         self.optimizer = optimizer
         self.dst_dir = dst_dir
+        TIMESTAMP = "{0:%Y-%m-%dT%H-%M-%S/}".format(datetime.now())
        
         print('nb:', self.nb_samples, self.batch_size)
         # Create the base pre-trained model
@@ -209,7 +231,7 @@ class GeneralModel(object):
             self.base_model = applications.VGG16(weights='imagenet', include_top=False)
        
         model_name = self.model_name + '_' + self.model + '_' + str(self.batch_size) + '_' + str(self.nb_epoch) + '_' + str(self.trainable_layers_final)                  + '_' + str(self.img_cols) + '_' + self.optimizer + '_' + str(self.lr)
-        model_path = os.path.join(self.dst_dir, self.model_name)
+        model_path = os.path.join(self.dst_dir, self.model_name + '_' + TIMESTAMP)
        
         if not os.path.exists(model_path):
             os.mkdir(model_path)
@@ -364,18 +386,21 @@ class GeneralModel(object):
         pred_generator.reset()
         Pred_result = model.predict_generator(pred_generator, steps = STEP_SIZE_PRED, verbose = 1)
         print(Pred_result)
-        Pred_class_indices = np.argmax(Pred_result, axis = 1)
-        print(Pred_class_indices)
-        return Pred_class_indices       
+        Pred_class_indices = np.argmax(Pred_result, axis = 1)          
+        filenames = pred_generator.filenames
+        Pred_results = pd.DataFrame({'Filename':filenames,'Predictions':Pred_class_indices,})
+        Pred_results_dict=Pred_results.set_index('Filename').T.to_dict('records')        
+        return Pred_results_dict
         
         
     def Model_Prediction_img(self,model,img_path):
         '''To predict one single image'''
         img=image.load_img(img_path,target_size=(self.img_rows,self.img_cols))
         x=image.img_to_array(img)
+        x=x/255
         x=np.expand_dims(x,axis=0)
         pred_one = model.predict(x)     
-        pred_class = np.argmax(pred_one)+1
+        pred_class = np.argmax(pred_one)
         print('pred_one:',pred_one,'pred_class:',pred_class)
         return pred_one, pred_class
 
@@ -384,17 +409,4 @@ class GeneralModel(object):
         model = load_model(os.path.join(model_path, model_name) + '.h5')        
         return model
         
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
