@@ -19,7 +19,7 @@ if __name__ == '__main__':
     #parameters 
     org_model='VGG16' #could be: 'VGG16', 'Resnet50', 'DenseNet121', 'DenseNet169', 'DenseNet201'
     model_name_init = 'BMG5' #the name init of generated model
-    dst_dir = './'
+    #dst_dir = './'
     lr = 0.001 #learning rate
     nb_epoch = 2 #number of epoches
     batch_size = 10 
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     
     
     cur = os.getcwd()
-    
+    dst_dir = os.path.join(cur,'gmodel','results')
     ##init
     gmodel = GeneralModel()
     
