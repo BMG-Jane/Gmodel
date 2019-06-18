@@ -1,26 +1,27 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[16]:
 
 
 #Call the functions in class GeneralModel
 #Call GMclass
 #no arg, direct variables
 #from GMcall02, to call GMclassDstdir, add dstdir as input of model train, add more output for data_stat
-#Jane Z., June 6, 2019
+#from GMcall03, output of prediction, pd to dictionary, call GMclassDict.py(fromGMclassPrediction09.py)
+#Jane Z., June 17, 2019
 
-from GMclassDstdir import GeneralModel
+from GMclassDict11 import GeneralModel
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     
     #parameters 
     org_model='DenseNet121' #could be: 'VGG16', 'Resnet50', 'DenseNet121', 'DenseNet169', 'DenseNet201'
-    model_name_init = 'BMG6' #the name init of generated model
+    model_name_init = 'BMG7' #the name init of generated model
     dst_dir = '/home/jane/results' #the folder for GModel
-    lr = 0.0001 #learning rate
-    nb_epoch = 1 #number of epoches
+    lr = 0.001 #learning rate
+    nb_epoch = 2 #number of epoches
     batch_size = 5
     val_split = 0.1 # val_split to validation set, 1-val_split to train set
     
@@ -48,8 +49,8 @@ if __name__ == '__main__':
     gmodel.Model_Saving(model_path, model_name, model)
     
     ##evaluation
- #   model_path = '/home/jane/results/BMG6'
- #   model_name = 'BMG6_DenseNet121_5_1_0_224_adam_0.0001'
+    model_path = '/home/jane/results/BMG6_2019-06-14T15-56-26'
+    model_name = 'BMG6_DenseNet121_5_8_0_224_adam_0.0001'
     test_dir = '/home/jane/test_egret/data'
     csv_dir_test = '/home/jane/test_egret/data_details_test.csv'
     
@@ -65,11 +66,12 @@ if __name__ == '__main__':
     plt.show()
     
     ##inferance a sequence of images
-    pred_dir = '/home/jane/test_egret' #images in the subfolder of pred_dir
+    pred_dir = '/home/jane/test_egret/data' 
     #load the sequence of images for prediction
     pred_generator = gmodel.Load_data_Predset(pred_dir)
     #prediction
     pred_results = gmodel.Model_Prediction(model, pred_generator)
+    print ('final results:', pred_results)
     
     ##inferance one single image
     img_path = '/home/jane/test_egret/data/P_01700_RIGHT_CC.png'
