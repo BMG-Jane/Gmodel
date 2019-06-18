@@ -8,7 +8,7 @@
 #Call GMclass
 #no arg, direct variables
 #GMcall03
-#Jane Z., June 6, 2019
+#Jane Z., June 17, 2019
 
 from GMclass import GeneralModel
 import matplotlib.pyplot as plt
@@ -17,12 +17,12 @@ import os
 if __name__ == '__main__':
     
     #parameters 
-    org_model='VGG16' #could be: 'VGG16', 'Resnet50', 'DenseNet121', 'DenseNet169', 'DenseNet201'
-    model_name_init = 'BMG5' #the name init of generated model
+    org_model='DenseNet121' #could be: 'VGG16', 'Resnet50', 'DenseNet121', 'DenseNet169', 'DenseNet201'
+    model_name_init = 'BMG7' #the name init of generated model
     #dst_dir = './'
-    lr = 0.001 #learning rate
-    nb_epoch = 2 #number of epoches
-    batch_size = 10 
+    lr = 0.0001 #learning rate
+    nb_epoch = 3 #number of epoches
+    batch_size = 5 
     val_split = 0.1 # val_split to validation set, 1-val_split to train set
     
     optimizer = 'adam' #'adam' or 'sgd'
