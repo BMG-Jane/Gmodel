@@ -11,7 +11,7 @@
 #from GMcall03, output of prediction, pd to dictionary, call GMclassDict.py(fromGMclassPrediction09.py)
 #Jane Z., June 17, 2019
 
-from GMclassDict11 import GeneralModel
+from GMclass import GeneralModel
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
