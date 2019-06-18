@@ -11,7 +11,7 @@
 #from GMclassBatchsize.py, dst_dir
 #from GMclassDstdir.py, revise the prediction--input without subfolder, output image name + predicted class
 #from GMclassPrediction09.py, output of prediction:pd to dict, add timestampe to model_path, predict single image: x=x./255
-#Jane Z. June 14, 2019
+#Jane Z. June 17, 2019
 import os
 import sys
 import glob
