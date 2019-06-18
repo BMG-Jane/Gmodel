@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[16]:
+# In[2]:
 
 
 #Call the functions in class GeneralModel
@@ -20,8 +20,8 @@ if __name__ == '__main__':
     org_model='DenseNet121' #could be: 'VGG16', 'Resnet50', 'DenseNet121', 'DenseNet169', 'DenseNet201'
     model_name_init = 'BMG7' #the name init of generated model
     dst_dir = '/home/jane/results' #the folder for GModel
-    lr = 0.001 #learning rate
-    nb_epoch = 2 #number of epoches
+    lr = 0.0001 #learning rate
+    nb_epoch = 3 #number of epoches
     batch_size = 5
     val_split = 0.1 # val_split to validation set, 1-val_split to train set
     
@@ -49,8 +49,8 @@ if __name__ == '__main__':
     gmodel.Model_Saving(model_path, model_name, model)
     
     ##evaluation
-    model_path = '/home/jane/results/BMG6_2019-06-14T15-56-26'
-    model_name = 'BMG6_DenseNet121_5_8_0_224_adam_0.0001'
+#    model_path = '/home/jane/results/BMG6_2019-06-14T15-56-26'
+#    model_name = 'BMG6_DenseNet121_5_8_0_224_adam_0.0001'
     test_dir = '/home/jane/test_egret/data'
     csv_dir_test = '/home/jane/test_egret/data_details_test.csv'
     
