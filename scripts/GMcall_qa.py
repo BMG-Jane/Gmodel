@@ -71,7 +71,7 @@ if __name__ == '__main__':
     
     ##inferance a sequence of images
 #     pred_dir = '/home/jane/test_egret' #images in the subfolder of pred_dir
-    pred_dir = os.path.join(cur, 'gmodel', 'test_egret')
+    pred_dir = os.path.join(cur, 'gmodel', 'test_egret','data')
     #load the sequence of images for prediction
     pred_generator = gmodel.Load_data_Predset(pred_dir)
     #prediction
