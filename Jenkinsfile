@@ -29,8 +29,8 @@ pipeline {
     }
     stage('Releasing'){
       steps {
-	sh 'mkdir /storage/QA/DrLotusAI_releases/Gmodel'
-	sh 'docker cp gmodel:/home/scripts /storage/QA/DrLotusAI_releases/Gmodel/'   
+	sh 'mkdir /storage/QA/DrLotusAI_releases/Gmodel/v1.0.1'
+	sh 'docker cp gmodel:/home/scripts /storage/QA/DrLotusAI_releases/Gmodel/v1.0.1/'   
 	sh 'docker stop gmodel'
 	sh 'docker rmi egret:jane1.0'
       }	    
