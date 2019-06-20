@@ -11,7 +11,8 @@
 #from GMclassBatchsize.py, dst_dir
 #from GMclassDstdir.py, revise the prediction--input without subfolder, output image name + predicted class
 #from GMclassPrediction09.py, output of prediction:pd to dict, add timestampe to model_path, predict single image: x=x./255
-#Jane Z. June 17, 2019
+#from GMclassDict11.py, mkdir for dst_dir
+#Jane Z. June 19, 2019
 import os
 import sys
 import glob
@@ -201,6 +202,8 @@ class GeneralModel(object):
         self.nb_epoch = nb_epoch     
         self.optimizer = optimizer
         self.dst_dir = dst_dir
+        if not os.path.exists(self.dst_dir):
+            os.mkdir(self.dst_dir)
         TIMESTAMP = "{0:%Y-%m-%dT%H-%M-%S/}".format(datetime.now())
        
         print('nb:', self.nb_samples, self.batch_size)
