@@ -6,7 +6,7 @@ Keras-Applications == 1.0.7
 Keras-Preprocessing == 1.0.9
 sklearn == 0.0
 pandas == 0.24.2
-opencv-python == 3.4.0.12
+opencv-python == 3.4.7.28
 scikit-image == 0.14.2
 scikit-learn == 0.20.3
 scipy == 1.2.1
