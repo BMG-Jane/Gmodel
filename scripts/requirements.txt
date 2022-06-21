@@ -1,5 +1,5 @@
 #libraries to install:
-numpy == 1.16.2
+numpy == 1.22.0
 matplotlib == 3.0.3
 Keras == 2.2.4
 Keras-Applications == 1.0.7
